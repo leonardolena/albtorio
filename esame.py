@@ -37,23 +37,25 @@ def compute_daily_variance(time_series):
     itemlist=[]
     for item in time_series:   
         
-        if (item[0]&864001!=0):  
+        if (item[0]&86400!=0):  
             itemlist.append(item[1])
         elif(len(itemlist)==0):
             itemlist.append(item[1])
         else:  
-            somma=itemlist[0]    
+            somma=0
             media=0
             var=0
-            i=1
-            while i<len(itemlist):
-                somma+=itemlist[i]
-                media=somma/(i+1)
-                var+=(itemlist[i]-media)**2
-                i+=1
+            
+            for item in itemlist:
+                somma+=item
+
+            media=somma/len(itemlist)
+            for item in itemlist:
+                var+=(item-media)**2
+                
             dv= var/len(itemlist)
             del itemlist[:]
-            itemlist.append(item[1])
+            
             varlist.append(dv)
     return varlist
 
